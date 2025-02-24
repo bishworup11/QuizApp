@@ -9,7 +9,7 @@
      const quizId = parseInt(route.params.id);
      const quiz = quizes.find(q => q.id === quizId)
      const currentQuestionIndex = ref(0);
-    // const numberOfCorrectAnswers = ref(1)
+      const numberOfCorrectAnswers = ref(0)
     // const showResults = ref(false)
 
     //  const questionStatus = ref(`${currentQuestionIndex.value}/${quiz.questions.length}`)
@@ -25,10 +25,17 @@
 
     const onOptionSelected=(isCorrect)=>{
         console.log("emit is call",isCorrect)
-        // if(isCorrect){
-        //     currentQuestionIndex.value++
-        // }
-        // currentQuestionIndex.value++
+        if(isCorrect){
+            numberOfCorrectAnswers.value++
+        }
+        if(quiz.questions.length - 1 === currentQuestionIndex.value){
+            // showResults.value = true
+            console.log("show result")
+        }
+        else{
+            currentQuestionIndex.value++
+        }
+        
     }
 
     // const onOptionSelected = (isCorrect) => {
