@@ -1,31 +1,25 @@
 <script setup>
 import q from '../data/quizzes.json'
-import { ref,watch } from 'vue'
+import { ref, watch } from 'vue'
 import Card from '../components/Card.vue'
 const quizzes = ref(q)
-const search= ref('')
-watch(search,()=>{
+const search = ref('')
+watch(search, () => {
   quizzes.value = q.filter(quiz => quiz.name.toLowerCase().includes(search.value.toLowerCase()))
 
 })
 </script>
 
 <template>
-  <div >
+  <div>
     <header>
       <h1>Quizzes</h1>
       <input v-model.trim="search" type="text" placeholder="Search..." />
     </header>
     <div class="options-container">
-      <Card v-for="quiz in quizzes" :key="quiz.id" :quiz="quiz" />
-      <!-- <div v-for="quiz in quizzes" :key="quiz.id" class="card">
-        <img :src="quiz.img" alt="" />
-        <div class="card-text">
-          <h2>{{ quiz.name }}</h2>
-          <p>{{ quiz.questions.length }} questions</p>
-        </div>
-      </div> -->
-
+      <TransitionGroup appear name="card">
+        <Card v-for="quiz in quizzes" :key="quiz.id" :quiz="quiz" />
+      </TransitionGroup>
 
     </div>
   </div>
@@ -63,6 +57,31 @@ header input {
 }
 
 /* CARD */
+.card-enter-from {
+  opacity: 0;
+  transform: translateY(-50px);
+}
 
+.card-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
 
+.card-enter-active {
+  transition: all .5s;
+}
+
+.card-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card-leave-to {
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.card-leave-active {
+  transition: all .5s;
+}
 </style>
